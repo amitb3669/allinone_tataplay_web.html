@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ALL IN ONE TATAPLAY</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .jwplayer {
+            position: absolute !important;
+        }
+
+        .jwplayer.jw-flag-aspect-mode {
+            min-height: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="jwplayerDiv"></div>
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <script type="text/javascript">
+        // Use the PHP configuration directly within the JavaScript
+        var config = {"file":"https://bpprod4catchup.akamaized.net/bpk-tv/irdeto_com_Channel_228/output/manifest.mpd?begin=20240517T010000&end=20240531T160000","drm":{"clearkey":{"keyId":"b28ff57795a35800815270217ad8a0ed","key":"5de9986d0137581cdd086c9aa733580b"}}};
+
+        jwplayer("jwplayerDiv").setup({
+            file: config.file,
+            position: 'bottom',
+            autostart: true,
+            stretching: "",
+            width: "100%",
+            type: "dash",
+            drm: {
+                clearkey: {
+                    keyId: config.drm.clearkey.keyId,
+                    key: config.drm.clearkey.key
+                }
+            }
+        });
+    </script>
+</body>
+</html>
