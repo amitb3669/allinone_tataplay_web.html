@@ -1,48 +1,215 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <title>ALL IN ONE TATAPLAY</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tataplay Live</title>
+  <link rel="stylesheet" href="./style.css">
 
-        .jwplayer {
-            position: absolute !important;
-        }
-
-        .jwplayer.jw-flag-aspect-mode {
-            min-height: 100%;
-            max-height: 100%;
-        }
-    </style>
 </head>
-    <script type='text/javascript' src='//eltontry.com/09/f1/e9/09f1e956c711aea6a898d5abbb78d092.js'></script>
 <body>
-    <div id="jwplayerDiv"></div>
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
-    <script type="text/javascript">
-        // Use the PHP configuration directly within the JavaScript
-        var config = {"file":"https://bpprod7catchup.akamaized.net/bpk-tv/irdeto_com_Channel_277/output/manifest.mpd?begin=20240517T010000&end=20240531T160000","drm":{"clearkey":{"keyId":"d351c67d42175a56b04064b99b35ca62","key":"8924d65b74b50ca28859e65f6a05159b"}}};
+<!-- partial:index.partial.html -->
+<!--  Fullscreen Video CSS -->
+<style>
+  #player {
+    position: absolute;
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
+  
+  
+  
+  
+ 
+  
+  
+  
+  
 
-        jwplayer("jwplayerDiv").setup({
-            file: config.file,
-            position: 'bottom',
-            autostart: true,
-            stretching: "",
-            width: "100%",
-            type: "dash",
-            drm: {
-                clearkey: {
-                    keyId: config.drm.clearkey.keyId,
-                    key: config.drm.clearkey.key
-                }
-            }
-        });
-    </script>
+<!-- Player -->
+<div id="player"></div>
+
+  
+  
+  
+
+    <script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
+  <script>
+    const playerInstance = jwplayer("player").setup({
+  controls: true,
+  sharing: true,
+  displaytitle: true,
+  autoplay: true,    
+  displaydescription: true,
+  abouttext: "Video Player By Madstream",
+  aboutlink: "https://madstream.one",
+
+  skin: {
+    name: "netflix"
+  },
+
+  logo: {
+    file:
+      "https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/imageContent-24-j5fb33y0-v1/imageContent-24-j5fb33y0-m1.png",
+    link: "https://madstream.one"
+  },
+
+  captions: {
+    color: "#FFF",
+    fontSize: 14,
+    backgroundOpacity: 0,
+    edgeStyle: "raised"
+  },
+
+  playlist: [
+    {
+      title: "B4U Music",
+      description: "You're Watching",
+      image: "",
+      sources: [
+        {
+          
+          file: "https://madplay.live/hls/tata/fetch.php?id=9",
+          type: "dash",
+          label: "1080p",
+          default: true,
+          drm: { "clearkey": {  "keyId":"d351c67d42175a56b04064b99b35ca62","key":"8924d65b74b50ca28859e65f6a05159b" } }
+        }
+      ],
+    }
+  ],
+  advertising: {
+    client: "vast",
+    schedule: [
+      {
+        offset: "pre",
+        tag:
+          ""
+      }
+    ]
+  }
+});
+
+playerInstance.on("ready", function () {
+ /*
+ const buttonId = "download-video-button";
+  const iconPath =
+    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+PHBhdGggZD0iTTMgMTloMTh2Mkgzdi0yem0xMC01LjgyOEwxOS4wNzEgNy4xbDEuNDE0IDEuNDE0TDEyIDE3IDMuNTE1IDguNTE1IDQuOTI5IDcuMSAxMSAxMy4xN1YyaDJ2MTEuMTcyeiIgZmlsbD0icmdiYSgyNDcsMjQ3LDI0NywxKSIvPjwvc3ZnPg==";
+  const tooltipText = "Download Video";
+  
+  */
+
+  // Call the player's `addButton` API method to add the custom button
+  playerInstance.addButton(iconPath, tooltipText, buttonClickAction, buttonId);
+
+  // This function is executed when the button is clicked
+  function buttonClickAction() {
+    const playlistItem = playerInstance.getPlaylistItem();
+    const anchor = document.createElement("a");
+    const fileUrl = playlistItem.file;
+    anchor.setAttribute("href", fileUrl);
+    const downloadName = playlistItem.file.split("/").pop();
+    anchor.setAttribute("download", downloadName);
+    anchor.style.display = "none";
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
+
+  // Move the timeslider in-line with other controls
+  const playerContainer = playerInstance.getContainer();
+  const buttonContainer = playerContainer.querySelector(".jw-button-container");
+  const spacer = buttonContainer.querySelector(".jw-spacer");
+  const timeSlider = playerContainer.querySelector(".jw-slider-time");
+  buttonContainer.replaceChild(timeSlider, spacer);
+
+  // Detect adblock
+  playerInstance.on("adBlock", () => {
+    const modal = document.querySelector("div.modal");
+    modal.style.display = "flex";
+
+    document
+      .getElementById("close")
+      .addEventListener("click", () => location.reload());
+  });
+
+  // Forward 10 seconds
+  const rewindContainer = playerContainer.querySelector(
+    ".jw-display-icon-rewind"
+  );
+  const forwardContainer = rewindContainer.cloneNode(true);
+  const forwardDisplayButton = forwardContainer.querySelector(
+    ".jw-icon-rewind"
+  );
+  forwardDisplayButton.style.transform = "scaleX(-1)";
+  forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
+  const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
+  nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
+
+  // control bar icon
+  playerContainer.querySelector(".jw-display-icon-next").style.display = "none"; // hide next button
+  const rewindControlBarButton = buttonContainer.querySelector(
+    ".jw-icon-rewind"
+  );
+  const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
+  forwardControlBarButton.style.transform = "scaleX(-1)";
+  forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
+  rewindControlBarButton.parentNode.insertBefore(
+    forwardControlBarButton,
+    rewindControlBarButton.nextElementSibling
+  );
+
+  // add onclick handlers
+  [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
+    button.onclick = () => {
+      playerInstance.seek(playerInstance.getPosition() + 10);
+    };
+  });
+});
+    
+  </script>
+
+
+<!--ADSTERRA 3 hours A DAY -->
+<script>// Check if the script has already executed within the last 3 hours
+var currentTime = new Date().getTime();
+var lastExecutionTime = localStorage.getItem('lastExecutionTime');
+var lastDailyExecutionTime = localStorage.getItem('lastDailyExecutionTime');
+
+// Check if 3 hours have passed since the last execution
+if (!lastExecutionTime || (currentTime - lastExecutionTime >= 3 * 60 * 60 * 1000)) {
+    // Execute the first script
+    var script1 = document.createElement('script');
+    script1.src = '//eyelashcatastrophe.com/25/27/e5/2527e50c78c665244781c6f5a6c247e3.js';
+    document.head.appendChild(script1);
+
+    // Update the last execution time in localStorage
+    localStorage.setItem('lastExecutionTime', currentTime);
+}
+
+// Check if a day has passed since the last daily execution
+if (!lastDailyExecutionTime || (currentTime - lastDailyExecutionTime >= 24 * 60 * 60 * 1000)) {
+    // Execute the second script
+    var script2 = document.createElement('script');
+    script2.textContent = "(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://zovidree.com/tag.min.js',5657870,document.body||document.documentElement)";
+    document.body.appendChild(script2);
+
+    // Update the last daily execution time in localStorage
+    localStorage.setItem('lastDailyExecutionTime', currentTime);
+}
+
+</script>
+<script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
+<!--END DEVTOOL KILL -->
+
+<!-- BEGIN: Powered by Supercounters.com -->
+<center><script type="text/javascript" src="//widget.supercounters.com/ssl/online_t.js"></script><script type="text/javascript">sc_online_t(1686050,"Users Online","#000000");</script><br><noscript><a href="https://www.supercounters.com/">supercounters.com</a></noscript>
+</center>
+<!-- END: Powered by Supercounters.com -->
+  
+  
+    
+
 </body>
 </html>
